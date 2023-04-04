@@ -27,7 +27,9 @@ public class App {
 
         // exibir e manipular os dados 
         var geradora = new GeradoraDeFigurinhas();
-        for (Map<String,String> filme : listaDeFilmes) {
+        for (int i = 0; i<10; i++) {
+        	
+        	Map<String,String> filme = listaDeFilmes.get(i);
 
             String urlImagem = filme.get("image");
             String titulo = filme.get("title");
@@ -36,10 +38,9 @@ public class App {
 				String nomeArquivo = "saida/" + titulo + ".png";
 
 				geradora.cria(inputStream, nomeArquivo);
-			} finally {
-				
-	            	System.out.println("Gerado com sucesso!");
 			}
+				System.out.println(titulo);
+				System.out.println();
         }
     }
 }
