@@ -1,4 +1,5 @@
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -14,7 +15,9 @@ public class App {
 
         // fazer uma conexão HTTP e buscar os top 250 filmes
         //String url = "https://imdb-api.com/en/API/Top250Movies/k_0ojt0yvm";
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        //String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+        String url = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2022-06-12&end_date=2022-06-14";
+        
         URI endereco = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder(endereco).GET().build();
@@ -23,15 +26,16 @@ public class App {
 
         // extrair só os dados que interessam (titulo, poster, classificação)
         var parser = new JsonParser();
-        List<Map<String, String>> listaDeFilmes = parser.parse(body);
+        List<Map<String, String>> listaDeConteudos = parser.parse(body);
 
         // exibir e manipular os dados 
         var geradora = new GeradoraDeFigurinhas();
-        for (int i = 0; i<10; i++) {
+        for (int i = 0; i < listaDeConteudos.size(); i++) {
         	
-        	Map<String,String> filme = listaDeFilmes.get(i);
+        	Map<String,String> filme = listaDeConteudos.get(i);
 
-            String urlImagem = filme.get("image");
+            //String urlImagem = filme.get("image");
+        	String urlImagem = filme.get("url");
             String titulo = filme.get("title");
 
             try (InputStream inputStream = new URL(urlImagem).openStream()) {
